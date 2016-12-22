@@ -30,27 +30,21 @@ class GameWindow(arcade.Window):
         for pig in self.world.pigs:
             self.pigs_sprites.append(ModelSprite('images/pig.png', scale = 0.18, model=pig))
 
-        self.foxs = []
-        j = 0
-        for j in range(2):
-            self.foxs.append(arcade.Sprite('images/fox.png', scale = 0.5))
-            self.foxs[j].set_position(775 + j*300, 75 + j*100)
+        self.foxs_sprites = []
+        for fox in self.world.foxs:
+            self.foxs_sprites.append(ModelSprite('images/fox.png', scale = 0.5, model=fox))
 
 
     def on_draw(self):
         arcade.start_render()
         for sprite in self.pigs_sprites:
             sprite.draw()
-        # for pig in self.pigs:
-        #     pig.draw()
 
-        for fox in self.foxs:
-            fox.draw()
+        for sprite in self.foxs_sprites:
+            sprite.draw()
 
     def animate(self, delta):
-        fox = self.foxs
-        for fox in self.foxs:
-            fox.set_position(fox.center_x - 2, fox.center_y)
+        self.world.animate(delta)
 
 if __name__ == '__main__':
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)

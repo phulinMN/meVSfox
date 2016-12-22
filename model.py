@@ -7,7 +7,7 @@ class Model:
         self.x = x
         self.y = y
 
-class World(Model):
+class World:
     def __init__(self, width, height):
         self.width = width
         self.height = height
@@ -18,15 +18,17 @@ class World(Model):
             self.pigs.append(pig)
 
         self.foxs = []
-        for i in range(10):
-            pig = Pig(self, 200, 200)
-            self.pigs.append(pig)
+        for j in range(10):
+            fox = Fox(self, 775 + j*300, 75 + j*100)
+            self.foxs.append(fox)
+
+    def animate(self, delta):
+        for fox in self.foxs:
+            fox.x -= 2
 
 class Pig(Model):
     def __init__(self, world, x, y):
         super().__init__(world, x, y, 0)
-
-    #def animate(self, delta):
 
 class Fox(Model):
     def __init__(self, world, x, y):
