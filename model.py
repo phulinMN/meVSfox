@@ -1,8 +1,9 @@
 import arcade.key
+import arcade
 from random import randint, random
 
 class Model:
-    def __init__(self, world, x, y, angle):
+    def __init__(self, world, x, y):
         self.world = world
         self.x = x
         self.y = y
@@ -17,6 +18,8 @@ class World:
 
         self.hunter = Hunter(self, 175, 75)
         self.status_pig = [1, 1, 1, 1, 1]
+        self.status_fox = [1, 1, 1, 1, 1]
+        self.bullets = []
         self.pigs = []
         for i in range(5):
             pig = Pig(self, 75, 75 + i*100)
@@ -32,6 +35,9 @@ class World:
             self.hunter.move_up()
         if key == arcade.key.DOWN:
             self.hunter.move_down()
+        if key == arcade.key.SPACE:
+            bullet = Bullet(self, self.hunter.x + 100, self.hunter.y)
+            self.bullets.append(bullet)
 
     def animate(self, delta):
         for fox in self.foxs:
@@ -41,23 +47,23 @@ class World:
                     self.status_pig[i] = 0
                     break
 
-        # for i in range(5):
-        #     print(str(i) + ' : ' + str(self.die_pig[i]))
+        for bullet in self.bullets:
+            bullet.animate(delta)
 
 class Pig(Model):
     def __init__(self, world, x, y):
-        super().__init__(world, x, y, 0)
+        super().__init__(world, x, y)
 
 class Fox(Model):
     def __init__(self, world, x, y):
-        super().__init__(world, x, y, 0)
+        super().__init__(world, x, y)
 
     def animate(self, delta):
         self.x -= 2
 
 class Hunter(Model):
     def __init__(self, world, x, y):
-        super().__init__(world, x, y, 0)
+        super().__init__(world, x, y)
 
     def move_up(self):
         if self.y < 475:
@@ -66,3 +72,11 @@ class Hunter(Model):
     def move_down(self):
         if self.y > 75:
             self.y -= 100
+
+
+class Bullet(Model):
+    def __init__(self, world, x, y):
+        super().__init__(world, x, y)
+
+    def animate(self, delta):
+        self.x += 4
