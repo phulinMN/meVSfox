@@ -54,15 +54,17 @@ class GameWindow(arcade.Window):
                 sprite.draw()
             j += 1
 
-        # for sprite in self.foxs_sprites:
-        #     sprite.draw()
-
         self.hunter_sprite.draw()
         for sprite in self.bullet_sprite:
             sprite.draw()
 
+        arcade.draw_text(str(self.world.score),
+                         550, self.height - 30,
+                         arcade.color.WHITE, 20)
+
     def animate(self, delta):
         self.world.animate(delta)
+
 
 if __name__ == '__main__':
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
