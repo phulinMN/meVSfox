@@ -12,6 +12,7 @@ class Model:
 
 class World:
     def __init__(self, width, height):
+        self.speed = 1
         self.width = width
         self.height = height
         self.score = 0
@@ -45,7 +46,7 @@ class World:
     def animate(self, delta):
         n = 0
         for fox in self.foxs:
-            fox.animate(delta)
+            fox.animate(delta, self.speed)
             for i in range(len(self.pigs)):
                 if fox.hit(self.pigs[i], 1) and self.status_fox[i] == 1:
                     self.status_pig[i] = 0
@@ -65,8 +66,8 @@ class World:
             if fox.x < 0:
                 self.status_fox[n] = 1
                 fox.x = 800
-
             n += 1
+        # self.speed += 1
 
 class Pig(Model):
     def __init__(self, world, x, y):
@@ -75,10 +76,6 @@ class Pig(Model):
 class Fox(Model):
     def __init__(self, world, x, y):
         super().__init__(world, x, y)
-
-    def random_location(self):
-        self.x = randint(0, self.world.width - 1)
-        self.y = randint(0, self.world.height - 1)
 
     def case(self):
         if self.y == 75:
@@ -92,9 +89,8 @@ class Fox(Model):
         if self.y == 375:
             n = 4
 
-
-    def animate(self, delta):
-        self.x -= 2
+    def animate(self, delta, speed):
+        self.x -= 2 + speed
 
 class Hunter(Model):
     def __init__(self, world, x, y):
