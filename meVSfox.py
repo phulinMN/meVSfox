@@ -34,11 +34,13 @@ class GameWindow(arcade.Window):
         for fox in self.world.foxs:
             self.foxs_sprites.append(ModelSprite('images/fox.png', scale = 0.5, model=fox))
 
-
     def on_draw(self):
         arcade.start_render()
+        i = 0
         for sprite in self.pigs_sprites:
-            sprite.draw()
+            if self.world.status_pig[i] == 1:
+                sprite.draw()
+            i += 1
 
         for sprite in self.foxs_sprites:
             sprite.draw()
