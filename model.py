@@ -15,6 +15,7 @@ class World:
         self.width = width
         self.height = height
 
+        self.hunter = Hunter(self, 100, 100)
         self.status_pig = [1, 1, 1, 1, 1]
         self.pigs = []
         for i in range(5):
@@ -47,3 +48,7 @@ class Fox(Model):
 
     def animate(self, delta):
         self.x -= 2
+
+class Hunter(Model):
+    def __init__(self, world, x, y):
+        super().__init__(world, x, y, 0)

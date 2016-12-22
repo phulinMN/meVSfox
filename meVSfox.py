@@ -25,7 +25,7 @@ class GameWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
 
         self.world = World(width, height)
-
+        self.hunter_sprite = ModelSprite('images/hunter.png', scale=0.5, model=self.world.hunter)
         self.pigs_sprites = []
         for pig in self.world.pigs:
             self.pigs_sprites.append(ModelSprite('images/pig.png', scale = 0.18, model=pig))
@@ -44,6 +44,8 @@ class GameWindow(arcade.Window):
 
         for sprite in self.foxs_sprites:
             sprite.draw()
+
+        self.hunter_sprite.draw()
 
     def animate(self, delta):
         self.world.animate(delta)
