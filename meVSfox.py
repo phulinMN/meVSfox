@@ -64,9 +64,12 @@ class GameWindow(arcade.Window):
         arcade.draw_text(str(self.world.score),
                          self.width - 50, self.height - 30,
                          arcade.color.WHITE, 20)
+        if self.world.heart == 0:
+            arcade.draw_text("END GAME", 300, 300, arcade.color.WHITE, 50)
 
     def animate(self, delta):
-        self.world.animate(delta)
+        if self.world.heart != 0:
+            self.world.animate(delta)
 
 
 if __name__ == '__main__':
