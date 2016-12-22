@@ -25,14 +25,17 @@ class GameWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
 
         self.world = World(width, height)
-        self.hunter_sprite = ModelSprite('images/hunter.png', scale=0.5, model=self.world.hunter)
+        self.hunter_sprite = ModelSprite('images/hunter.png', scale=0.4, model=self.world.hunter)
         self.pigs_sprites = []
         for pig in self.world.pigs:
             self.pigs_sprites.append(ModelSprite('images/pig.png', scale = 0.18, model=pig))
 
         self.foxs_sprites = []
         for fox in self.world.foxs:
-            self.foxs_sprites.append(ModelSprite('images/fox.png', scale = 0.5, model=fox))
+            self.foxs_sprites.append(ModelSprite('images/fox.png', scale = 0.36, model=fox))
+
+    def on_key_press(self, key, key_modifiers):
+        self.world.on_key_press(key, key_modifiers)
 
     def on_draw(self):
         arcade.start_render()
