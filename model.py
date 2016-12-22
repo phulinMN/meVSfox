@@ -1,17 +1,33 @@
 import arcade.key
 from random import randint
 
-class World:
+class Model:
+    def __init__(self, world, x, y, angle):
+        self.world = world
+        self.x = x
+        self.y = y
+
+class World(Model):
     def __init__(self, width, height):
         self.width = width
         self.height = height
 
-        self.pig = Pig(self, 75, 75)
+        self.pigs = []
+        for i in range(5):
+            pig = Pig(self, 75, 75 + i*100)
+            self.pigs.append(pig)
 
-    def animate(self, delta):
-        self.pig.animate(delta)
+        self.foxs = []
+        for i in range(10):
+            pig = Pig(self, 200, 200)
+            self.pigs.append(pig)
 
-class Pig:
+class Pig(Model):
     def __init__(self, world, x, y):
-        super().__init__(world, x, y)
-        self.direction = Pig.DIR_VERTICAL
+        super().__init__(world, x, y, 0)
+
+    #def animate(self, delta):
+
+class Fox(Model):
+    def __init__(self, world, x, y):
+        super().__init__(world, x, y, 0)
