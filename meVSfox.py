@@ -39,8 +39,11 @@ class GameWindow(arcade.Window):
         self.world.on_key_press(key, key_modifiers)
 
     def on_draw(self):
-        for bullet in self.world.bullets:
-            self.bullet_sprite.append(ModelSprite("images/bullet.png", scale=0.02, model=bullet))
+        self.bullet_sprite.clear()
+        for i in range(len(self.world.bullets)):
+            if self.world.status_bullet[i] == 1:
+                self.bullet_sprite.append(ModelSprite("images/bullet.png", scale=0.02, model=self.world.bullets[i]))
+
         arcade.start_render()
         i = 0
         for sprite in self.pigs_sprites:
@@ -59,7 +62,7 @@ class GameWindow(arcade.Window):
             sprite.draw()
 
         arcade.draw_text(str(self.world.score),
-                         550, self.height - 30,
+                         self.width - 50, self.height - 30,
                          arcade.color.WHITE, 20)
 
     def animate(self, delta):

@@ -17,7 +17,8 @@ class World:
         self.score = 0
         self.hunter = Hunter(self, 175, 75)
         self.status_pig = [1, 1, 1, 1, 1]
-        self.status_fox = [1, 1, 1, 1, 1]
+        self.status_fox = []
+        self.status_bullet = []
         self.bullets = []
         self.pigs = []
 
@@ -28,6 +29,7 @@ class World:
         self.foxs = []
         for j in range(5):
             fox = Fox(self, 775 + j*300, 75 + j*100)
+            self.status_fox.append(1)
             self.foxs.append(fox)
 
     def on_key_press(self, key, key_modifiers):
@@ -36,11 +38,12 @@ class World:
         if key == arcade.key.DOWN:
             self.hunter.move_down()
         if key == arcade.key.SPACE:
-            bullet = Bullet(self, self.hunter.x + 100, self.hunter.y)
-            self.bullets.append(bullet)
+            self.bullet = Bullet(self, self.hunter.x + 100, self.hunter.y)
+            self.status_bullet.append(1)
+            self.bullets.append(self.bullet)
 
     def animate(self, delta):
-        n = 1
+        n = 0
         for fox in self.foxs:
             fox.animate(delta)
             for i in range(len(self.pigs)):
@@ -49,14 +52,21 @@ class World:
                     self.score -= 1
                     break
 
-        for bullet in self.bullets:
-            bullet.animate(delta)
-            for i in range(len(self.foxs)):
-                if bullet.hit(self.foxs[i], 10) and self.status_fox[i] == 1:
-                    print(i)
-                    self.status_fox[i] = 0
-                    self.score += 1
-                    break
+            for j in range(len(self.bullets)):
+                self.bullets[j].animate(delta)
+                if fox.case() == self.bullets[j].case() and self.status_fox[n] == 1:
+                    if self.bullets[j].hit(fox, 10):
+                        self.status_bullet[j] = 0
+                        self.status_fox[n] = 0
+                        self.score += 1
+                        break
+                    if self.bullets[j].x > 800:
+                        self.status_bullet[j] = 0
+            if fox.x < 0:
+                self.status_fox[n] = 1
+                fox.x = 800
+
+            n += 1
 
 class Pig(Model):
     def __init__(self, world, x, y):
@@ -69,6 +79,19 @@ class Fox(Model):
     def random_location(self):
         self.x = randint(0, self.world.width - 1)
         self.y = randint(0, self.world.height - 1)
+
+    def case(self):
+        if self.y == 75:
+            n = 0
+        if self.y == 175:
+            n = 1
+        if self.y == 175:
+            n = 2
+        if self.y == 275:
+            n = 3
+        if self.y == 375:
+            n = 4
+
 
     def animate(self, delta):
         self.x -= 2
@@ -91,4 +114,16 @@ class Bullet(Model):
         super().__init__(world, x, y)
 
     def animate(self, delta):
-        self.x += 4
+        self.x += 2
+
+    def case(self):
+        if self.y == 75:
+            n = 0
+        if self.y == 175:
+            n = 1
+        if self.y == 175:
+            n = 2
+        if self.y == 275:
+            n = 3
+        if self.y == 375:
+            n = 4
