@@ -13,8 +13,8 @@ class Model:
 class World:
     def __init__(self, width, height):
         self.speed = 1
-        self.r = 0
         self.heart = 5
+        self.r = 0
         self.width = width
         self.height = height
         self.score = 0
@@ -50,13 +50,14 @@ class World:
         for fox in self.foxs:
             fox.animate(delta, self.speed)
             for i in range(len(self.pigs)):
-                if fox.hit(self.pigs[i], 1) and self.status_fox[n] == 1:
-                    self.status_pig[i] = 0
-                    self.r += 1
-                    print(self.r)
-                    self.heart -= 1
-                    self.score -= 1
-                    break
+                if fox.case() == self.pigs[i].case() and self.status_fox[n] == 1:
+                    if fox.hit(self.pigs[i], 10):
+                        self.status_pig[i] = 0
+                        self.heart -= 1
+                        print(self.heart)
+                        self.pigs[i].x = -500
+                        self.pigs[i].y = -500
+                        break
 
             for j in range(len(self.bullets)):
                 self.bullets[j].animate(delta)
@@ -72,11 +73,24 @@ class World:
                 self.status_fox[n] = 1
                 fox.x = 800
             n += 1
+
         self.speed += 0.001
 
 class Pig(Model):
     def __init__(self, world, x, y):
         super().__init__(world, x, y)
+
+    def case(self):
+        if self.y == 75:
+            n = 0
+        if self.y == 175:
+            n = 1
+        if self.y == 175:
+            n = 2
+        if self.y == 275:
+            n = 3
+        if self.y == 375:
+            n = 4
 
 class Fox(Model):
     def __init__(self, world, x, y):
