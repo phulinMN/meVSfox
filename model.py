@@ -10,6 +10,10 @@ class Model:
     def hit(self, other, hit_size):
         return (abs(self.x - other.x) <= hit_size) and (abs(self.y - other.y) <= hit_size)
 
+# class GameSound:
+#     def shoot(self):
+#         arcade.sound.play_sound(self.gun)
+
 class World:
     def __init__(self, width, height):
         self.speed = 1
@@ -23,7 +27,6 @@ class World:
         self.status_bullet = []
         self.bullets = []
         self.pigs = []
-
         for i in range(5):
             pig = Pig(self, 75, 75 + i*100)
             self.pigs.append(pig)
@@ -43,6 +46,8 @@ class World:
             self.bullet = Bullet(self, self.hunter.x + 100, self.hunter.y)
             self.status_bullet.append(1)
             self.bullets.append(self.bullet)
+            self.gun_sound = arcade.load_sound("./gun.wav")
+            arcade.play_sound(self.gun_sound)
 
     def animate(self, delta):
         n = 0
