@@ -25,6 +25,7 @@ class GameWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
 
         self.world = World(width, height)
+        self.endgame = arcade.Sprite('images/black.png', scale=2)
         self.hunter_sprite = ModelSprite('images/hunter.png', scale=0.4, model=self.world.hunter)
         self.bullet_sprite = []
         self.pigs_sprites = []
@@ -65,7 +66,8 @@ class GameWindow(arcade.Window):
                          self.width - 50, self.height - 30,
                          arcade.color.WHITE, 20)
         if self.world.heart == 0:
-            arcade.draw_text("END GAME", 300, 300, arcade.color.WHITE, 50)
+            self.endgame.draw()
+            arcade.draw_text("END GAME", 200, 300, arcade.color.WHITE, 50)
 
     def animate(self, delta):
         if self.world.heart != 0:

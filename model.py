@@ -13,8 +13,7 @@ class Model:
 class World:
     def __init__(self, width, height):
         self.speed = 1
-        self.heart = 5
-        self.r = 0
+        self.heart = 3
         self.width = width
         self.height = height
         self.score = 0
@@ -65,13 +64,17 @@ class World:
                     if self.bullets[j].hit(fox, 10):
                         self.status_bullet[j] = 0
                         self.status_fox[n] = 0
+                        self.bullets[j].x = -500
+                        self.bullets[j].y = -500
                         self.score += 1
                         break
                     if self.bullets[j].x > 800:
                         self.status_bullet[j] = 0
+                        self.bullets[j].x = -500
+                        self.bullets[j].y = -500
             if fox.x < 0:
                 self.status_fox[n] = 1
-                fox.x = 800
+                self.foxs[n].random_fox()
             n += 1
 
         self.speed += 0.001
@@ -95,6 +98,10 @@ class Pig(Model):
 class Fox(Model):
     def __init__(self, world, x, y):
         super().__init__(world, x, y)
+
+    def random_fox(self):
+        self.x = 800
+        self.y = 75 + randint(0,4)*100
 
     def case(self):
         if self.y == 75:
